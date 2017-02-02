@@ -77,6 +77,7 @@ Revise la especificación del método 'rotateSelectedShape' y a partir del mismo
 	
 * Defina las clases de equivalencia para las posibles entradas de este método. Ponga el detalle de estas clases, a manera de comentarios en la clase de pruebas ControllerTest, incluyendo:
 	* La descripción del conjunto, usando lenguaje natural o lenguaje matemático.
+	* El tipo de prueba 	
 	* El resultado esperado para dicha clase de equivalencia.
 	
 	Ejemplo:
