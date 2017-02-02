@@ -78,6 +78,17 @@ Revise la especificación del método 'rotateSelectedShape' y a partir del mismo
 * Defina las clases de equivalencia para las posibles entradas de este método. Ponga el detalle de estas clases, a manera de comentarios en la clase de pruebas ControllerTest, incluyendo:
 	* La descripción del conjunto, usando lenguaje natural o lenguaje matemático.
 	* El resultado esperado para dicha clase de equivalencia.
+	
+	Ejemplo:
+	
+		| #CE	| Método        | Clase de equivalencia           | Tipo  | Resultado |
+		| ---	| ------------- |:-------------| -----:|
+		| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x | Correcta/Estándar | |
+		| 1| Controller.rotateSelectedShape      |  | Error | |
+		|2	| Controller.rotateSelectedShape      | |  De frontera | | 
+
+	
+	
 
 * Seleccione un caso por cada clase de equivalencia e implemente las respectivas pruebas en ControllerTest.
 
