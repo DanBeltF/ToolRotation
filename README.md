@@ -75,7 +75,10 @@ Quedando al final:
 
 Revise la especificación del método 'rotateSelectedShape' y a partir del mismo haga lo siguiente:
 	
-* Defina las clases de equivalencia para las posibles entradas de este método. Ponga el detalle de estas clases, a manera de comentarios, en la clase de pruebas ControllerTest.
+* Defina las clases de equivalencia para las posibles entradas de este método. Ponga el detalle de estas clases, a manera de comentarios en la clase de pruebas ControllerTest, incluyendo:
+	* La descripción del conjunto, usando lenguaje natural o lenguaje matemático.
+	* El resultado esperado para dicha clase de equivalencia.
+
 * Seleccione un caso por cada clase de equivalencia e implemente las respectivas pruebas en ControllerTest.
 
 * Cuando haya hecho lo anterior, ejecute:
