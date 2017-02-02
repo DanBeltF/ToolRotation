@@ -109,7 +109,7 @@ git commit -m "primera versión de las pruebas"
 	
 ```bash		
 git add .			
-git commit -m "funcionalidad mirror implementada"
+git commit -m "funcionalidad de rotación implementada"
 			
 ```		
 
