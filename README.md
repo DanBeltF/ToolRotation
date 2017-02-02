@@ -84,9 +84,9 @@ Revise la especificación del método 'rotateSelectedShape' y a partir del mismo
 	
 	| #CE	| Método        | Clase de equivalencia           | Tipo  | Resultado |
 	| ---	| ------------- |:-------------| -----:|--- |
-	| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x | Correcta/Estándar | |
-	| 1| Controller.rotateSelectedShape      |  | Error | |
-	|2	| Controller.rotateSelectedShape      | |  De frontera | | 
+	| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x | Correcta/Estándar |  ????? |
+	| 2| Controller.rotateSelectedShape      | ???? | Error | ???? |
+	|3	| Controller.rotateSelectedShape      |???? |  De frontera | ????| 
 
 	
 	
