@@ -149,14 +149,14 @@ Parte I.
 Parte II.
 
 * Proceso:
-	* Se especificaron clases de equivalencia y condiciones de frontera para las pruebas del método 'mirror', a partir de la especificación (dicha especificación debe estar como comentarios en la clase que implementa las pruebas).
+	* Se especificaron clases de equivalencia y condiciones de frontera para las pruebas del método 'rotar', a partir de la especificación (dicha especificación debe estar como comentarios en la clase que implementa las pruebas).
 	* Las clases de equivalencia deben describir conjuntos NO UNITARIOS, es decir NO deben hacer referencia a conjuntos de valores concretos (estos serían casos de prueba, no clases de equivalencia).
 	* Se describen condiciones de frontera (igualmente, sin hacer referencia a valores concretos).
 	* Se implementaron casos de prueba acordes con las clases de equivalencia.
 	* Al revisar los LOGs de GIT, se evidencia que primero se hicieron las pruebas, y luego la implementación del código.
 	
 * Diseño:
-	* Se creó un conjunto de comandos que encapsulan la funcionalidad de dibujar, duplicar y espejo. Cada comando incluye un método con la operación inversa, de manera que con ésta se puedan deshacer las operaciones.
+	* Se creó un conjunto de comandos que encapsulan la funcionalidad de dibujar, duplicar y rotar. Cada comando incluye un método con la operación inversa, de manera que con ésta se puedan deshacer las operaciones.
 	* La aplicación lleva el historial de los comandos ejecutados, de manera que se puedan realizar las operaciones de deshacer/rehacer consistentemente. Nota: el incluír pilas dentro de los comandos (y hacer el apilar/desapilar dentro de la ejecución de los mismos), se evaluará como R, pues esto acopla dichos comandos a la funcionalidad de deshacer/rehacer.
 	* En el esquema de deshacer/rehacer se debe tener en cuenta que si después de deshacer una acción, se crea una nueva acción (un nuevo comando), el 'rehacer' debe quedar invalidado.		
 
