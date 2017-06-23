@@ -1,5 +1,5 @@
-###Escuela Colombiana de Ingenieria
-###Procesos de desarrollo de Software - PDSW
+### Escuela Colombiana de Ingenieria
+### Procesos de desarrollo de Software - PDSW
 
 
 __Taller - diseño de pruebas: clases de equivalencia, condiciones de frontera, análisis de transiciones.__
@@ -10,48 +10,46 @@ Entregables:
 * Parte II (clases de equivalenci y diseño). El martes clase.
 * Parrte II (implementado). Antes del próximo laboratorio.
 
-###Parte I
+### Parte I
 
 1. Descargue e importe el proyecto de base del primer punto.
 
 	```bash
-git clone https://github.com/PDSW-ECI/DesignPatterns_Behavioral_Command_TestingIntro.git
-```
-
-
-
+	git clone https://github.com/PDSW-ECI/DesignPatterns_Behavioral_Command_TestingIntro.git
+	```
 
 2. Revise cómo es la estructura de Maven para separar las pruebas de los demás artefactos del proyecto: src/main, src/test.
 3. Ejecute la fase de pruebas del proyecto con el comando, y analice cómo son presentados los resultados.
 
 	```
-mvn test
+	mvn test
 	```
+	
 4. Implemente un caso de prueba para cada clase de equivalencia/condicion de frontera identificado. Recuerde usar la anotacion @Test y seguir la conveción de nombres: 
 
 	```java
-/**
-* Pruebas clase de equivalencia XX: [Aquí la especificación de la clase de equivalencia]
-**/
-@Test
-public void testClaseEquivalenciaXX(){
-	...
-}
+	/**
+	* Pruebas clase de equivalencia XX: [Aquí la especificación de la clase de equivalencia]
+	**/
+	@Test
+	public void testClaseEquivalenciaXX(){
+		...
+	}
 	```
 
 5. Una vez implementadas las pruebas, haga la implementación que ya hizo un 'programador poco confiable', en el archivo algoritmo-ProgramadorPocoConfiabe.txt.
+
 6. Ejecute las pruebas. A partir de los resultados obtenidos, identifique los posibles problemas que tenga la implementación.
+
 7. Hága el análisis de cobertura de sus pruebas, mediante el comando:
 	
 	```
-mvn cobertura:cobertura
+	mvn cobertura:cobertura
 	```
 	y posteriormente revisando el reporte en target/site/cobertura/. A partir de esto, identifique casos de prueba adicionales para que el cubrimiento de saltos mejore (ojalá al 100%).
 
-
-
-###Parte II.
-####Parte A.
+### Parte II.
+#### Parte A.
 
 
 En este ejercicio, va a agregar un par de requerimientos funcionales a una herramienta de dibujo tipo CAD, siguiendo un esquema TDD (Test-Driven development). En la evaluación se revisará que efectivamente se hayan hecho las pruebas antes de la implementación.
@@ -113,8 +111,7 @@ git commit -m "funcionalidad de rotación implementada"
 			
 ```		
 
-
-####Parte B.
+#### Parte B.
 
 Otra funcionalidad faltante es la opción de 'deshacer' / 'rehacer'. Para esto, aplique el patrón Comando (ver referencia dada en la programación de lecturas).
 
@@ -138,9 +135,7 @@ Nota: Para comprimir el avance en un archivo .zip, use el comando (dentro del di
 	zip -r NOMBRE.PROYECTO.zip .	
 ```			
 
-
-
-###Criterios de evaluación
+### Criterios de evaluación
 
 Parte I.
 
