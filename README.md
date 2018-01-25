@@ -15,7 +15,7 @@ Entregables:
 1. Descargue e importe el proyecto de base del primer punto.
 
 	```bash
-	git clone https://github.com/PDSW-ECI/DesignPatterns_Behavioral_Command_TestingIntro.git
+	git clone https://github.com/PDSW-ECI/EquivalenceClassesPropertyTestingExcercise
 	```
 
 2. Revise cómo es la estructura de Maven para separar las pruebas de los demás artefactos del proyecto: src/main, src/test.
