@@ -126,7 +126,7 @@ Nota: Para comprimir el avance en un archivo .zip, use el comando (dentro del di
 	zip -r NOMBRE.PROYECTO.zip .	
 ```			
 
-<%--### Criterios de evaluación
+<!-- ### Criterios de evaluación
 
 Parte I.
 
