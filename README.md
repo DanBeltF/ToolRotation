@@ -14,6 +14,8 @@ Entregables:
 
 ### Parte I
 
+0. Revise las [especificaciones del ejercicio básico de diseño de pruebas](https://docs.google.com/document/d/1ThdKgqam1lhJmiNrOlszQg3uEr_65Yw4suOeW2vFDrw).
+
 1. Descargue e importe el proyecto de base del primer punto.
 
 	```bash
