@@ -34,7 +34,8 @@ public class TransformationsTest {
 
     @Test
     public void duplicateTestSize(){
-        qt().forAll(linesController())
+        qt().forAll(linesController()
+                    .describedAs((c) -> "Controller Shapes size = " + c.getShapes().size()))
             .check((controller) -> {
                     int n = controller.getShapes().size();
                     controller.duplicateShapes();
@@ -47,7 +48,8 @@ public class TransformationsTest {
 
     @Test
     public void duplicateTestNotDuplicatedReferences() {
-        qt().forAll(linesController())
+        qt().forAll(linesController()
+                    .describedAs((c) -> "Controller Shapes size = " + c.getShapes()))
             .check((controller) -> {
                     controller.duplicateShapes();
                     List<Shape> shapes = controller.getShapes();
@@ -58,7 +60,10 @@ public class TransformationsTest {
                 });
     }
 
+    // Test cases generators
 
+    /**
+     **/
     private Gen<Controller> linesController() {
         return listsLineAsPoints().map( (ls) -> {
                     Controller guictrl=new Controller();        
