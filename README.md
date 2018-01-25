@@ -74,7 +74,7 @@ Revise la especificación del método 'rotateSelectedShape' y a partir del mismo
 	Ejemplo:
 	
 	| #CE	| Método        | Clase de equivalencia         | Resultado |
-	| ---	| ------------- |:-------------| -----:|--- |
+	| ---	| ------------- |:-------------| --- |
 	| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x |  ????? |
 	| 2| Controller.rotateSelectedShape      | ????  | ???? |
 	|3	| Controller.rotateSelectedShape      |????  | ????| 
