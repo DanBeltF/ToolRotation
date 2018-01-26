@@ -4,6 +4,8 @@
 
 __Taller - diseño de pruebas: clases de equivalencia, condiciones de frontera, análisis de transiciones.__
 
+__Importante: Las instrucciones de este taller asumen el uso de Linux__
+
 Entregables: 
 
 * Parte I, en clase.
@@ -11,6 +13,8 @@ Entregables:
 * Parrte II (implementado). Antes del próximo laboratorio.
 
 ### Parte I
+
+0. Revise las [especificaciones del ejercicio básico de diseño de pruebas](https://docs.google.com/document/d/1ThdKgqam1lhJmiNrOlszQg3uEr_65Yw4suOeW2vFDrw).
 
 1. Descargue e importe el proyecto de base del primer punto.
 
@@ -25,7 +29,7 @@ Entregables:
 	mvn test
 	```
 	
-4. Implemente un caso de prueba para cada clase de equivalencia/condicion de frontera identificado. Recuerde usar la anotacion @Test y seguir la conveción de nombres: 
+4. Implemente un caso de prueba para cada clase de equivalencia identificado, siguiendo el esquema PBT (property-based testing) a través de JUnit y QuickTheories. Recuerde usar la anotacion @Test y seguir la conveción de nombres: 
 
 	```java
 	/**
@@ -37,16 +41,8 @@ Entregables:
 	}
 	```
 
-5. Una vez implementadas las pruebas, haga la implementación que ya hizo un 'programador poco confiable', en el archivo algoritmo-ProgramadorPocoConfiabe.txt.
+5. Ejecute las pruebas. A partir de los resultados obtenidos, identifique los posibles problemas que tenga la implementación.
 
-6. Ejecute las pruebas. A partir de los resultados obtenidos, identifique los posibles problemas que tenga la implementación.
-
-7. Hága el análisis de cobertura de sus pruebas, mediante el comando:
-	
-	```
-	mvn cobertura:cobertura
-	```
-	y posteriormente revisando el reporte en target/site/cobertura/. A partir de esto, identifique casos de prueba adicionales para que el cubrimiento de saltos mejore (ojalá al 100%).
 
 ### Parte II.
 #### Parte A.
@@ -55,7 +51,6 @@ Entregables:
 En este ejercicio, va a agregar un par de requerimientos funcionales a una herramienta de dibujo tipo CAD, siguiendo un esquema TDD (Test-Driven development). En la evaluación se revisará que efectivamente se hayan hecho las pruebas antes de la implementación.
 
 1. Clone los fuentes de ESTE repositorio con git, NO lo descargue directamente de la página!).
-
 
 2. Importe el proyecto y revise su funcionalidad. Como observará, la opción 'rotar figura seleccionada' no está implementada aún. Esta función permite rotar la figura seleccionada actualmente en la lista de figuras, usando como eje de rotación la esquina inferior izquierda del rectángulo que enmarque dicha figura (por ahora sólo se pueden dibujar líneas y rectángulos).
 
@@ -80,18 +75,18 @@ Revise la especificación del método 'rotateSelectedShape' y a partir del mismo
 	
 	Ejemplo:
 	
-	| #CE	| Método        | Clase de equivalencia           | Tipo  | Resultado |
-	| ---	| ------------- |:-------------| -----:|--- |
-	| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x | Correcta/Estándar |  ????? |
-	| 2| Controller.rotateSelectedShape      | ???? | Error | ???? |
-	|3	| Controller.rotateSelectedShape      |???? |  De frontera | ????| 
+	| #CE	| Método        | Clase de equivalencia         | Resultado |
+	| ---	| ------------- |:-------------| --- |
+	| 1| Controller.rotateSelectedShape      | Segmento Horizontal: La instancia del controlador tiene un segmento de recta r tal que r.punto1.y==r.punto2.y ^ r.punto1.x != r.punto1.x |  ????? |
+	| 2| Controller.rotateSelectedShape      | ????  | ???? |
+	|3	| Controller.rotateSelectedShape      |????  | ????| 
 	|....	| .....      |..... |  ...... | .....| 	
-	|N	| Controller.rotateSelectedShape      |???? |  ????? | ????| 
+	|N	| Controller.rotateSelectedShape      |????  | ????| 
 
 	
 	
 
-* Seleccione un caso por cada clase de equivalencia e implemente las respectivas pruebas en ControllerTest.
+* Seleccione un caso por cada clase de equivalencia e implemente las respectivas pruebas en ControllerTest, siguiendo el esquema PBT y QuickTheories.
 
 * Cuando haya hecho lo anterior, ejecute:
 	
@@ -135,7 +130,7 @@ Nota: Para comprimir el avance en un archivo .zip, use el comando (dentro del di
 	zip -r NOMBRE.PROYECTO.zip .	
 ```			
 
-### Criterios de evaluación
+<!-- ### Criterios de evaluación
 
 Parte I.
 
@@ -157,4 +152,7 @@ Parte II.
 
 * Funcionalidad:
 	* La aplicación permite dibujar, duplicar y hacer espejo de manera consistente.
-	* Las operaciones se pueden deshacer/rehacer.
+	* Las operaciones se pueden deshacer/rehacer.-->
+
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este contenido hace parte del curso Procesos de Desarrollo de Software del programa de Ingeniería de Sistemas de la Escuela Colombiana de Ingeniería, y está licenciado como <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
