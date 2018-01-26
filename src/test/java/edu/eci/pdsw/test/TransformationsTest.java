@@ -80,7 +80,7 @@ public class TransformationsTest {
     }
 
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPoints() {
-        return points().zip(points(),(p1,p2) -> new Pair(p1,p2));
+        return points().zip(points(),(p1,p2) -> new Pair<>(p1,p2));
     }
 
     private Gen<java.awt.Point> points() {
