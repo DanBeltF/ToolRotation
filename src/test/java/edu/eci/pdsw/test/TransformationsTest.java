@@ -9,12 +9,18 @@ import eci.pdsw.draw.controller.Controller;
 import eci.pdsw.draw.model.ElementType;
 import eci.pdsw.draw.model.Shape;
 import eci.pdsw.util.Pair;
+
+import java.awt.Point;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import org.quicktheories.core.Gen;
+import org.quicktheories.generators.Generate;
+import org.quicktheories.generators.Lists;
+
 import static org.quicktheories.QuickTheory.qt;
 import static org.quicktheories.generators.Generate.*;
 import static org.quicktheories.generators.SourceDSL.*;
@@ -59,6 +65,19 @@ public class TransformationsTest {
                                   shapes.stream().filter((sj) -> si == sj ).count() == 1);
                 });
     }
+    
+    @Test
+    public void rotateSelectedShapeTest1(){
+    	qt().forAll(linesController()
+                .describedAs((c) -> "Controller Shapes size = " + c.getShapes()))
+        .check((controller) -> {
+                controller.duplicateShapes();
+                List<Shape> shapes = controller.getShapes();
+
+                return shapes.stream()
+                    .allMatch((si) -> 
+                              shapes.stream().filter((sj) -> si == sj ).count() == 1);
+            });    }
 
     // Test cases generators
 
@@ -74,6 +93,8 @@ public class TransformationsTest {
                     return guictrl;
                 });
     }
+    
+  
 
     private Gen<List<Pair<java.awt.Point,java.awt.Point>>> listsLineAsPoints() {        
         return lists().of(pairOfPoints()).ofSizeBetween(0,20);
@@ -87,5 +108,33 @@ public class TransformationsTest {
         return integers().allPositive()
             .zip(integers().allPositive(), (x,y) -> new java.awt.Point(x,y));
     }
+    
+    /// Nuevos generadores
+    
+   
+    private Gen<java.awt.Point> pointsSameY() {      	
+        return range(0,20).zip(range(0,20),(x,y) -> new java.awt.Point(x,y));
+    }
+    
+    private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsY() {
+        return points().zip(points(),(p1,p2) ->new Pair<>(p1,p2));
+    }
+    
+   
+    @Test
+    public void Testsss(){
+        qt().forAll(pointsSameY()
+                    .describedAs((p) -> "x & y= " + p.getX() +"  "+ p.getY()))
+            .check((p) -> {
+                    double x =p.getX() ;
+                  
+                    double y = p.getY();
+                    
+                    System.out.println(p.getX()+" "+p.getY());
+                    return true;
+                });
+    }
+
+    
     
 }

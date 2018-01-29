@@ -119,7 +119,7 @@ public class Controller implements IController {
      */
     @Override
     public void rotateSelectedShape(Integer index) {
-        //NO IMPLEMENTADO
+    	shapes.get(index);
         
         //notificar a la capa de presentación
         notifyObservers();        
