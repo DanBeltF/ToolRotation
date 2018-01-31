@@ -100,7 +100,7 @@ public class TransformationsTest {
     * Prueba Vertical
     * Basado en la 1
     */
-   @Test
+  @Test
    public void rotateSelectedShapeTest2(){
     	Controller guictrl=new Controller();      
     	List<Shape> sh=guictrl.getShapes();
@@ -116,7 +116,7 @@ public class TransformationsTest {
         		guictrl.rotateSelectedShape(sh.size()-1);
         		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
         				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
-        		return lineaRotadaf(viejos,nuevos);
+        		return lineaRotadaf(nuevos,viejos);
             });	    
    }    
    
@@ -136,7 +136,7 @@ public class TransformationsTest {
        		guictrl.rotateSelectedShape(sh.size()-1);
        		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
        				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
-       		return lineaRotadaf(viejos,nuevos);
+       		return lineaRotadaf(nuevos,viejos);
            });	       
    }
    
@@ -171,20 +171,16 @@ public class TransformationsTest {
     	boolean ans=false;
     	try{
     		// Esquinas para comprobar el eje de rotacion
-			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};			
-			ans= new Float(n[1]-n[3]).equals(new Float(v[0]-v[2])) // distacia en x de los viejos = dist y de los nuevos
-					&& new Float(n[0]-n[2]).equals(new Float(v[1]-v[3])); // distancia y de los viejos = dist x de los nuevos	
-			if (ans==false){
-				System.out.println("Entonces y "+(n[1]-n[3]==v[0]-v[2]));
-				System.out.println("Entonces x "+(n[0]-n[2]==v[1]-v[3])+" "+ (n[0]-n[2]) + " "+(v[1]-v[3]));
-			}
-	    }catch(Exception ex){
-    		
-    	}	
+			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};		
+			float[] EsquinaSN=new float[]{Math.min(n[0], n[2]),Math.min(n[1], n[3])};			
+			ans= n[1]-n[3]==v[0]-v[2] // distacia en x de los viejos = dist y de los nuevos
+					&& n[0]-n[2]==v[1]-v[3] // distancia y de los viejos = dist x de los nuevos
+						&& EsquinaIV[0]==EsquinaSN[0] && EsquinaSN[1]==EsquinaIV[1]; // direccion de giro	
+			System.out.println(EsquinaIV[0]+" "+EsquinaIV[1]+" "+EsquinaSN[0]+" "+EsquinaSN[1]+" ");
+	    }catch(Exception ex){ 	}	
     	return ans;
-	}   
+	}      
     
-      
 
     // Test cases generators
 
@@ -226,7 +222,7 @@ public class TransformationsTest {
                     .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
                     		+p.getSecond().getX() +"  "+ p.getSecond().getY()))        
         
-            .check((p) ->  p.getSecond().getY()==p.getFirst().getY()              	
+            .check((p) ->  p.getSecond().getY()==p.getFirst().getY()  && p.getFirst().getY()>=0 && p.getSecond().getY()>0            	
                 );
     }   
     
@@ -236,7 +232,7 @@ public class TransformationsTest {
                     .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
                     		+p.getSecond().getX() +"  "+ p.getSecond().getY()))        
         
-            .check((p) ->  p.getSecond().getX()==p.getFirst().getX()               	
+            .check((p) ->  p.getSecond().getX()==p.getFirst().getX() && p.getFirst().getY()>=0 && p.getSecond().getY()>0              	
                 );
     }   
     
@@ -246,7 +242,8 @@ public class TransformationsTest {
         		.describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
                     		+p.getSecond().getX() +"  "+ p.getSecond().getY()))        
         
-            .check((p) ->  p.getSecond().getX()!=p.getFirst().getX() && p.getSecond().getY()!=p.getFirst().getY()          	
+            .check((p) ->  p.getSecond().getX()!=p.getFirst().getX() && p.getSecond().getY()!=p.getFirst().getY() 
+            && p.getFirst().getY()>=0 && p.getSecond().getY()>0
                 );
     }       
    
@@ -259,7 +256,7 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsY() {
-        return points().zip(integers().allPositive(),(p1,x2) ->new Pair<>(new java.awt.Point(p1.x+x2,p1.y),p1));
+        return points().zip(integers().allPositive(),(p1,x2) ->new Pair<>(new java.awt.Point(Math.abs(p1.x+x2),p1.y),p1));
     }
        
     //---
@@ -270,17 +267,24 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsX() {
-        return points().zip(integers().allPositive(),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,p1.y+y2),p1));
+        return points().zip(integers().allPositive(),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,Math.abs(p1.y+y2)),p1));
     }
     
     //--
     //
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsDif() {
-        return points().zip(integers().allPositive(),(p1,dif) -> new Pair<>(new java.awt.Point(p1.x+dif,p1.y+dif),p1));
+        return pointsS().zip(range(1,20),(p1,dif) -> new Pair<>(new java.awt.Point(Math.abs(p1.x+dif),Math.abs(p1.y+dif)),p1));
     }
+    
+    private Gen<java.awt.Point> pointsS() {
+        return range(1,30000)
+            .zip(range(1,30000), (x,y) -> new java.awt.Point(x,y));
+    }
+        
     private Gen<List<Pair<java.awt.Point,java.awt.Point>>> listsLineAsPointsDif() {        
         return lists().of(pairOfPointsDif()).ofSizeBetween(0,20);
     }
+    
     
 }
     

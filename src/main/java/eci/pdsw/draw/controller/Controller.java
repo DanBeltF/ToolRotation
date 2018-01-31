@@ -121,7 +121,7 @@ public class Controller implements IController {
      */
  
     public void rotateSelectedShape(Integer index) {
-    
+    	shapes.get(index).rotate();    
         notifyObservers();        
     }    
     

@@ -17,12 +17,16 @@ public abstract class Shape {
     protected Shape(Point p1,Point p2) {
        this.p1 = p1;
        this.p2 = p2;
+       if (p1.getX()<0 || p1.getY()<0 || p2.getY()<0 || p2.getX()<0)
+    	   //System.out.println("Puntos negativos !!!")
+    	   ;
+       
     }
     
     abstract public ElementType getElementType();
     
     public Point getPoint1() {
-        return p1;
+    	return p1;
     }
     
     abstract public Shape cloneShape();    
@@ -42,7 +46,7 @@ public abstract class Shape {
 	public void rotate() {		
 		Point Av=this.getPoint1();
 		Point Bv=this.getPoint2();
-		float delta=new Float(Math.abs(Av.getY()-Bv.getY()));		
+		float delta=Math.abs(Av.getY()-Bv.getY());			
 		this.setPoint1(new Point(Av.getY(),Av.getX()+delta));
 		this.setPoint2(new Point(Bv.getY(),Bv.getX()+delta));
 	}    
