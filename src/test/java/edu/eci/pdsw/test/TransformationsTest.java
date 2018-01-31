@@ -15,6 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.internal.Throwables;
+
 import static org.junit.Assert.*;
 
 import org.quicktheories.core.Gen;
@@ -72,26 +74,25 @@ public class TransformationsTest {
      */
     @Test
     public void rotateSelectedShapeTest1(){
-    	qt().forAll(linesControllerHorizontal()
-                .describedAs((c) -> "Cantidad Lineas Horizontales " + c.getShapes().size()))
-        .check((controller) -> {
-        		List<Shape> shapes = controller.getShapes();
-        		boolean ans=true;
-        		for (int i=0; i<shapes.size();i++){
-        			//Guardar puntos anteriores
-        			eci.pdsw.draw.model.Point[] parpuntos=new eci.pdsw.draw.model.Point[]{
-        					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};
-        			//Rota la linea
-        			controller.rotateSelectedShape(i);
-        			//Nuevos puntos
-        			eci.pdsw.draw.model.Point[] nuevoparpuntos=new eci.pdsw.draw.model.Point[]{
-        					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};   
-        			// Verificar si se roto la linea
-        			ans=ans&& lineaRotada(parpuntos,nuevoparpuntos);
-        		}       		
-        		return ans;
-            });
+    	Controller guictrl=new Controller();      
+    	List<Shape> sh=guictrl.getShapes();
+		guictrl.setSelectedElementType(ElementType.Line);
+    	qt().forAll(pairOfPointsY()
+                .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
+                		+p.getSecond().getX() +"  "+ p.getSecond().getY()))
+        .check((p) -> {             		
+        		guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
+        		Shape last=sh.get(sh.size()-1); 
+        		float[] viejos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+        				last.getPoint2().getX(),last.getPoint2().getY()};        	
+        		guictrl.rotateSelectedShape(sh.size()-1);
+        		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+        				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
+        		return lineaRotadaf(nuevos,viejos);
+            });	    
     }    
+    
+  
     
     /**
     * Prueba Vertical
@@ -99,51 +100,67 @@ public class TransformationsTest {
     */
    @Test
    public void rotateSelectedShapeTest2(){
-   	qt().forAll(linesControllerVertical()
-               .describedAs((c) -> "Cantidad Lineas Horizontales " + c.getShapes().size()))
-       .check((controller) -> {
-       		List<Shape> shapes = controller.getShapes();
-       		boolean ans=true;
-       		for (int i=0; i<shapes.size();i++){       		
-       			eci.pdsw.draw.model.Point[] parpuntos=new eci.pdsw.draw.model.Point[]{
-       					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};       			
-       			controller.rotateSelectedShape(i);       			
-       			eci.pdsw.draw.model.Point[] nuevoparpuntos=new eci.pdsw.draw.model.Point[]{
-       					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};        		
-       			ans=ans&& lineaRotada(parpuntos,nuevoparpuntos);
-       		}       		
-       		return ans;
-           });
+    	Controller guictrl=new Controller();      
+    	List<Shape> sh=guictrl.getShapes();
+		guictrl.setSelectedElementType(ElementType.Line);
+    	qt().forAll(pairOfPointsX()
+                .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
+                		+p.getSecond().getX() +"  "+ p.getSecond().getY()))
+        .check((p) -> {             		
+        		guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
+        		Shape last=sh.get(sh.size()-1); 
+        		float[] viejos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+        				last.getPoint2().getX(),last.getPoint2().getY()};        	
+        		guictrl.rotateSelectedShape(sh.size()-1);
+        		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+        				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
+        		return lineaRotadaf(viejos,nuevos);
+            });	    
    }    
    
    @Test
    public void rotateSelectedShapeTest3(){
-   	qt().forAll(linesControllerVertical()
-               .describedAs((c) -> "Cantidad Lineas Horizontales " + c.getShapes().size()))
-       .check((controller) -> {
-       		List<Shape> shapes = controller.getShapes();
-       		boolean ans=true;
-       		for (int i=0; i<shapes.size();i++){       		
-       			eci.pdsw.draw.model.Point[] parpuntos=new eci.pdsw.draw.model.Point[]{
-       					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};       			
-       			controller.rotateSelectedShape(i);       			
-       			eci.pdsw.draw.model.Point[] nuevoparpuntos=new eci.pdsw.draw.model.Point[]{
-       					controller.getShapes().get(i).getPoint1(),controller.getShapes().get(i).getPoint2()};        		
-       			ans=ans&& lineaRotada(parpuntos,nuevoparpuntos);
-       		}       		
-       		return ans;
-           });
-   }    
+	   Controller guictrl=new Controller();      
+	   List<Shape> sh=guictrl.getShapes();
+	   guictrl.setSelectedElementType(ElementType.Line);
+	   qt().forAll(pairOfPointsDif()
+               .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
+               		+p.getSecond().getX() +"  "+ p.getSecond().getY()))
+       .check((p) -> {             		
+       		guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
+       		Shape last=sh.get(sh.size()-1); 
+       		float[] viejos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+       				last.getPoint2().getX(),last.getPoint2().getY()};        	
+       		guictrl.rotateSelectedShape(sh.size()-1);
+       		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+       				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
+       		return lineaRotadaf(viejos,nuevos);
+           });	       
+   }         
     
-    public boolean lineaRotada(eci.pdsw.draw.model.Point[] v,eci.pdsw.draw.model.Point[] n){    	
-    		// Esquinas para comprobar el eje de rotacion
-    		float[] EsquinaIV=new float[]{Math.min(v[0].getX(), v[1].getX()),Math.max(v[0].getY(), v[1].getY())};
-    		float[] EsquinaSN=new float[]{Math.min(n[0].getX(), n[1].getX()),Math.min(n[0].getY(), n[1].getY())};
-    		return n[0].getX()-n[1].getX()==v[0].getY()-v[1].getY() // distacia en x de los viejos = dist y de los nuevos
-    				&& n[0].getY()-n[1].getY()==v[0].getX()-v[1].getX() // distancia y de los viejos = dist x de los nuevos
-    				&& EsquinaIV[0]==EsquinaSN[0] && EsquinaIV[1]==EsquinaSN[1] // Corresponte la esquina
-    						;   		
-    }   
+   /**
+    * Identifica si roto 90 grados una linea respecto a la esquina inferior derecha
+    * @param n [x1,y1,x2,y2] nuevos puntos
+    * @param v [x1,y1,x2,y2] viejos puntos
+    * @return Si roto 90 grados
+    */
+    public boolean lineaRotadaf(float[] n,float[] v){    	
+		// Esquinas para comprobar el eje de rotacion
+    	// 0=x1 1=y1 2=x2 3=y2
+    	boolean ans=false;
+    	try{
+			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};
+			float[] EsquinaSN=new float[]{Math.min(n[0], n[2]),Math.min(n[1], n[3])};   
+			ans= n[1]-n[3]==v[0]-v[2] // distacia en x de los viejos = dist y de los nuevos
+					&& n[0]-n[2]==v[1]-v[3] // distancia y de los viejos = dist x de los nuevos
+					&& EsquinaIV[0]==EsquinaSN[0] && EsquinaIV[1]==EsquinaSN[1]; // Corresponde la esquina
+	    }catch(Exception ex){
+    		
+    	}	
+    	return ans;
+	}   
+    
+    
 
     // Test cases generators
 
@@ -185,7 +202,7 @@ public class TransformationsTest {
                     .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
                     		+p.getSecond().getX() +"  "+ p.getSecond().getY()))        
         
-            .check((p) ->  p.getSecond().getY()==p.getFirst().getY()               	
+            .check((p) ->  p.getSecond().getY()==p.getFirst().getY()              	
                 );
     }   
     
@@ -207,41 +224,8 @@ public class TransformationsTest {
         
             .check((p) ->  p.getSecond().getX()!=p.getFirst().getX() && p.getSecond().getY()!=p.getFirst().getY()          	
                 );
-    }   
-    
-
-    private Gen<Controller> linesControllerHorizontal() {
-        return listsLineAsPointsSameY().map( (ls) -> {
-                    Controller guictrl=new Controller();        
-                    guictrl.setSelectedElementType(ElementType.Line);
-                    for(Pair<java.awt.Point,java.awt.Point> p : ls) {
-                        guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());                        
-                    }
-                    return guictrl;
-                });
-    }
-    
-    private Gen<Controller> linesControllerVertical() {
-        return listsLineAsPointsSameX().map( (ls) -> {
-                    Controller guictrl=new Controller();        
-                    guictrl.setSelectedElementType(ElementType.Line);
-                    for(Pair<java.awt.Point,java.awt.Point> p : ls) {
-                        guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());                        
-                    }
-                    return guictrl;
-                });
-    }
-    
-    private Gen<Controller> linesControllerDif() {
-        return listsLineAsPointsDif().map( (ls) -> {
-                    Controller guictrl=new Controller();        
-                    guictrl.setSelectedElementType(ElementType.Line);
-                    for(Pair<java.awt.Point,java.awt.Point> p : ls) {
-                        guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());                        
-                    }
-                    return guictrl;
-                });
-    }
+    }       
+   
     
     //---
     //
@@ -251,7 +235,7 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsY() {
-        return points().zip(integers().allPositive(),(p1,x2) ->new Pair<>(new java.awt.Point(x2,p1.y),p1));
+        return points().zip(integers().allPositive(),(p1,x2) ->new Pair<>(new java.awt.Point(p1.x+x2,p1.y),p1));
     }
        
     //---
@@ -262,7 +246,7 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsX() {
-        return points().zip(integers().allPositive(),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,y2),p1));
+        return points().zip(integers().allPositive(),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,p1.y+y2),p1));
     }
     
     //--

@@ -118,9 +118,7 @@ public class Controller implements IController {
      * del controlador
      */
     @Override
-    public void rotateSelectedShape(Integer index) {
-    	shapes.get(index);
-        
+    public void rotateSelectedShape(Integer index) {    	
         //notificar a la capa de presentación
         notifyObservers();        
     }    
