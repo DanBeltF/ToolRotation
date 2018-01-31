@@ -29,4 +29,6 @@ public class Rectangle extends Shape {
         return new Rectangle(this.getPoint1(), this.getPoint2());
     }
 
+	
+
 }

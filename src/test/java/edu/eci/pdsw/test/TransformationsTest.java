@@ -144,23 +144,25 @@ public class TransformationsTest {
     * @param v [x1,y1,x2,y2] viejos puntos
     * @return Si roto 90 grados
     */
-    public boolean lineaRotadaf(float[] n,float[] v){    	
-		// Esquinas para comprobar el eje de rotacion
+    public boolean lineaRotadaf(float[] n,float[] v){    		
     	// 0=x1 1=y1 2=x2 3=y2
     	boolean ans=false;
     	try{
-			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};
-			float[] EsquinaSN=new float[]{Math.min(n[0], n[2]),Math.min(n[1], n[3])};   
-			ans= n[1]-n[3]==v[0]-v[2] // distacia en x de los viejos = dist y de los nuevos
-					&& n[0]-n[2]==v[1]-v[3] // distancia y de los viejos = dist x de los nuevos
-					&& EsquinaIV[0]==EsquinaSN[0] && EsquinaIV[1]==EsquinaSN[1]; // Corresponde la esquina
+    		// Esquinas para comprobar el eje de rotacion
+			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};			
+			ans= new Float(n[1]-n[3]).equals(new Float(v[0]-v[2])) // distacia en x de los viejos = dist y de los nuevos
+					&& new Float(n[0]-n[2]).equals(new Float(v[1]-v[3])); // distancia y de los viejos = dist x de los nuevos	
+			if (ans==false){
+				System.out.println("Entonces y "+(n[1]-n[3]==v[0]-v[2]));
+				System.out.println("Entonces x "+(n[0]-n[2]==v[1]-v[3])+" "+ (n[0]-n[2]) + " "+(v[1]-v[3]));
+			}
 	    }catch(Exception ex){
     		
     	}	
     	return ans;
 	}   
     
-    
+      
 
     // Test cases generators
 

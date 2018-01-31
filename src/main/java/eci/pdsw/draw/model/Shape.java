@@ -38,6 +38,12 @@ public abstract class Shape {
     public void setPoint2(Point p2) {
         this.p2 = p2;
     }
-
     
+	public void rotate() {		
+		Point Av=this.getPoint1();
+		Point Bv=this.getPoint2();
+		float delta=new Float(Math.abs(Av.getY()-Bv.getY()));		
+		this.setPoint1(new Point(Av.getY(),Av.getX()+delta));
+		this.setPoint2(new Point(Bv.getY(),Bv.getX()+delta));
+	}    
 }
