@@ -12,6 +12,8 @@ import eci.pdsw.draw.model.ShapeFactory;
 import eci.pdsw.draw.model.Point;
 import eci.pdsw.draw.model.Shape;
 import eci.pdsw.pattern.observer.Observer;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -118,7 +120,28 @@ public class Controller implements IController {
      * del controlador
      */
     @Override
-    public void rotateSelectedShape(Integer index) {    	
+    public void rotateSelectedShape(Integer index) {
+        Controller ct= new Controller();
+        Point p1inicial;
+        Point p2inicial;
+        Point p1Final;
+        Point p2Final;
+        //Point[] points;
+        
+        p1inicial=ct.getShapes().get(index).getPoint1();
+        p2inicial=ct.getShapes().get(index).getPoint2();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Shape s=ct.getShapes().get(index);
+        /*Point p2=points[0];
+        Point p1=points[1];
+        if(p1.getY()<screenSize.height && p2.getY()<screenSize.height){
+            ct.getShapes().get(index).setPoint1(p2);
+            ct.getShapes().get(index).setPoint2(p1);
+        }
+        p1Final=ct.getShapes().get(index).getPoint1();
+        p2Final=ct.getShapes().get(index).getPoint2();
+        */
+        
         //notificar a la capa de presentación
         notifyObservers();        
     }    

@@ -10,6 +10,8 @@ import eci.pdsw.draw.model.ElementType;
 import eci.pdsw.draw.model.Shape;
 import eci.pdsw.draw.model.Point;
 import eci.pdsw.util.Pair;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.util.Arrays;
 import java.util.List;
@@ -136,8 +138,28 @@ public class TransformationsTest {
        				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
        		return lineaRotadaf(viejos,nuevos);
            });	       
-   }         
-    
+   }
+   
+    /**
+    * Prueba Afuera de la pantalla
+    */
+    @Test
+    public void rotateSelectedShapeTest4(){
+        Controller guictrl=new Controller();
+        List<Shape> sh=guictrl.getShapes();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        //System.out.println(screenSize);
+        guictrl.setSelectedElementType(ElementType.Line);
+        
+        qt().forAll(pairOfPointsDif()
+            .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
+               		+p.getSecond().getX() +"  "+ p.getSecond().getY()))
+            .check((p) -> {             		
+       		guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
+       		return guictrl.getShapes().get(0).getPoint1().getY() < screenSize.height && guictrl.getShapes().get(0).getPoint2().getX() < screenSize.width;
+           });
+    }
+   
    /**
     * Identifica si roto 90 grados una linea respecto a la esquina inferior derecha
     * @param n [x1,y1,x2,y2] nuevos puntos
