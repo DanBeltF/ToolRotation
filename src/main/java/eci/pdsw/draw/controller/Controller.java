@@ -12,6 +12,8 @@ import eci.pdsw.draw.model.ShapeFactory;
 import eci.pdsw.draw.model.Point;
 import eci.pdsw.draw.model.Shape;
 import eci.pdsw.pattern.observer.Observer;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -117,9 +119,9 @@ public class Controller implements IController {
      * @param index la posicion de la figura en el conjunto de figuras
      * del controlador
      */
-    @Override
-    public void rotateSelectedShape(Integer index) {    	
-        shapes.get(index).rotate();
+ 
+    public void rotateSelectedShape(Integer index) {
+    
         notifyObservers();        
     }    
     
