@@ -16,10 +16,7 @@ public abstract class Shape {
 
     protected Shape(Point p1,Point p2) {
        this.p1 = p1;
-       this.p2 = p2;
-       if (p1.getX()<0 || p1.getY()<0 || p2.getY()<0 || p2.getX()<0)
-    	   //System.out.println("Puntos negativos !!!")
-    	   ;
+       this.p2 = p2;     
        
     }
     
@@ -49,12 +46,12 @@ public abstract class Shape {
     	return new float[]{-(y-ey)+ex,x-ex+ey};
     }
     
-	public void rotate() {		
-		float[] esq=new float[]{Math.min(getPoint1().getX(), getPoint2().getX())				
-		,Math.max(getPoint1().getY(), getPoint2().getY())};
-		float[] Arot=rotarNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]);
-		float[] Brot=rotarNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]);		
-		setPoint1(new Point(Arot[0],Arot[1]));
-		setPoint2(new Point(Brot[0],Brot[1]));
-	}    
+    public static float[] rotarNoventaGradosR(float x,float y,float ex,float ey){
+    	//x-ex=x NO TOCAR !!!
+    	//y-ey=y
+    	return new float[]{-(y-ey)+ex,x-ex+ey};
+    }
+    public abstract float[] getEsq();
+    
+    public abstract void rotate();
 }

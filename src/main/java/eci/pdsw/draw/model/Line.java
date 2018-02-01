@@ -28,6 +28,18 @@ public class Line extends Shape {
     public Shape cloneShape() {
         return new Line(this.getPoint1(), this.getPoint2());
     }
-    
+
+	@Override
+	public float[] getEsq() {		
+		return new float[]{Math.min(getPoint1().getX(), getPoint2().getX())				
+				,Math.max(getPoint1().getY(), getPoint2().getY())};
+	}
+	public void rotate() {		
+		float[] esq=getEsq();
+		float[] Arot=rotarNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]);
+		float[] Brot=rotarNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]);		
+		setPoint1(new Point(Arot[0],Arot[1]));
+		setPoint2(new Point(Brot[0],Brot[1]));
+	}    
     
 }

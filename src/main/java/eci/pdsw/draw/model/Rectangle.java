@@ -10,7 +10,8 @@ package eci.pdsw.draw.model;
  * @author fchaves
  */
 public class Rectangle extends Shape {
-       
+     
+	// OJO !
     @Override
     public ElementType getElementType() {
         return ElementType.Rectangle;
@@ -29,6 +30,18 @@ public class Rectangle extends Shape {
         return new Rectangle(this.getPoint1(), this.getPoint2());
     }
 
+   
+	public float[] getEsq() {		
+		return new float[]{getPoint1().getX(),Math.max(getPoint1().getY(), getPoint2().getY())};
+	}
+    
+  
+    public void rotate(){
+    	float[] esq=getEsq();		
+    	float difx=Math.abs(getPoint1().getX()-getPoint2().getX());
+    	float dify=Math.abs(getPoint1().getY()-getPoint2().getY());
+		setPoint1(new Point(esq[0],esq[1]));
+		setPoint2(new Point(getPoint1().getX()+dify,getPoint1().getY()+difx));
+    }
 	
-
 }

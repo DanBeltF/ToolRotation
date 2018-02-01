@@ -37,6 +37,10 @@ public class Controller implements IController {
         
     private Renderer renderer;
     
+    private Stack<Comando> ReHacer;
+    
+    private Stack<Comando> DesHacer;
+    
     public Controller() {
     }
     
@@ -89,11 +93,13 @@ public class Controller implements IController {
     
     @Override
     public void undo() {
+    	//operacion.deshacer
     	throw new RuntimeException("No se ha implemenado UNDO");
     }
 
     @Override
     public void redo() {
+    	//operacion.rehacer
     	throw new RuntimeException("No se ha implemenado UNDO");
     }
 

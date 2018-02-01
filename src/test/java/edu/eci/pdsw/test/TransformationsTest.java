@@ -186,9 +186,9 @@ public class TransformationsTest {
 						&& EsquinaIV[0]==EsquinaSN[0] && EsquinaSN[1]==EsquinaIV[1]; // direccion de giro					
 	    }catch(Exception ex){ 	}	
     	return ans;
-	}         
+	}           
     
-    
+  
     
     // Test cases generators
 
