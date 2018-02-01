@@ -140,8 +140,10 @@ public class TransformationsTest {
            });	       
    }
    
+   
+   
     /**
-    * Prueba Afuera de la pantalla
+    * Prueba Para rectangulos
     */
     @Test
     public void rotateSelectedShapeTest4(){
@@ -149,14 +151,20 @@ public class TransformationsTest {
         List<Shape> sh=guictrl.getShapes();
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         //System.out.println(screenSize);
-        guictrl.setSelectedElementType(ElementType.Line);
+        guictrl.setSelectedElementType(ElementType.Rectangle);
         
         qt().forAll(pairOfPointsDif()
             .describedAs((p) -> "x & y: Primero " + p.getFirst().getX() +"  "+ p.getFirst().getY()+"\n Segundo punto : "
                		+p.getSecond().getX() +"  "+ p.getSecond().getY()))
             .check((p) -> {             		
-       		guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
-       		return guictrl.getShapes().get(0).getPoint1().getY() < screenSize.height && guictrl.getShapes().get(0).getPoint2().getX() < screenSize.width;
+            	guictrl.addShapeFromScreenPoints(p.getFirst(),p.getSecond());             		  
+           		Shape last=sh.get(sh.size()-1); 
+           		float[] viejos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+           				last.getPoint2().getX(),last.getPoint2().getY()};        	
+           		guictrl.rotateSelectedShape(sh.size()-1);
+           		float[] nuevos=new float[]{last.getPoint1().getX(),last.getPoint1().getY(),
+           				last.getPoint2().getX(),last.getPoint2().getY()};         	       		
+           		return lineaRotadaf(nuevos,viejos);
            });
     }
    
@@ -173,15 +181,15 @@ public class TransformationsTest {
     		// Esquinas para comprobar el eje de rotacion
 			float[] EsquinaIV=new float[]{Math.min(v[0], v[2]),Math.max(v[1], v[3])};		
 			float[] EsquinaSN=new float[]{Math.min(n[0], n[2]),Math.min(n[1], n[3])};			
-			ans= n[1]-n[3]==v[0]-v[2] // distacia en x de los viejos = dist y de los nuevos
-					&& n[0]-n[2]==v[1]-v[3] // distancia y de los viejos = dist x de los nuevos
-						&& EsquinaIV[0]==EsquinaSN[0] && EsquinaSN[1]==EsquinaIV[1]; // direccion de giro	
-			System.out.println(EsquinaIV[0]+" "+EsquinaIV[1]+" "+EsquinaSN[0]+" "+EsquinaSN[1]+" ");
+			ans= Math.abs(n[1]-n[3])==Math.abs(v[0]-v[2]) // distacia en x de los viejos = dist y de los nuevos
+					&& Math.abs(n[0]-n[2])==Math.abs(v[1]-v[3])// distancia y de los viejos = dist x de los nuevos
+						&& EsquinaIV[0]==EsquinaSN[0] && EsquinaSN[1]==EsquinaIV[1]; // direccion de giro					
 	    }catch(Exception ex){ 	}	
     	return ans;
-	}      
+	}         
     
-
+    
+    
     // Test cases generators
 
     /**
@@ -207,8 +215,8 @@ public class TransformationsTest {
     }
 
     private Gen<java.awt.Point> points() {
-        return integers().allPositive()
-            .zip(integers().allPositive(), (x,y) -> new java.awt.Point(x,y));    
+        return range(1,30000)
+            .zip(range(1,30000), (x,y) -> new java.awt.Point(x,y));    
         
     }    
     
@@ -256,7 +264,7 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsY() {
-        return points().zip(integers().allPositive(),(p1,x2) ->new Pair<>(new java.awt.Point(Math.abs(p1.x+x2),p1.y),p1));
+        return points().zip(range(1,30000),(p1,x2) ->new Pair<>(new java.awt.Point(Math.abs(p1.x+x2),p1.y),p1));
     }
        
     //---
@@ -267,20 +275,16 @@ public class TransformationsTest {
     
     
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsX() {
-        return points().zip(integers().allPositive(),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,Math.abs(p1.y+y2)),p1));
+        return points().zip(range(1,30000),(p1,y2) ->new Pair<>(new java.awt.Point(p1.x,Math.abs(p1.y+y2)),p1));
     }
     
     //--
     //
     private Gen<Pair<java.awt.Point,java.awt.Point>> pairOfPointsDif() {
-        return pointsS().zip(range(1,20),(p1,dif) -> new Pair<>(new java.awt.Point(Math.abs(p1.x+dif),Math.abs(p1.y+dif)),p1));
+        return points().zip(range(1,30000),(p1,dif) -> new Pair<>(new java.awt.Point(Math.abs(p1.x+dif),Math.abs(p1.y+dif)),p1));
     }
     
-    private Gen<java.awt.Point> pointsS() {
-        return range(1,30000)
-            .zip(range(1,30000), (x,y) -> new java.awt.Point(x,y));
-    }
-        
+    
     private Gen<List<Pair<java.awt.Point,java.awt.Point>>> listsLineAsPointsDif() {        
         return lists().of(pairOfPointsDif()).ofSizeBetween(0,20);
     }

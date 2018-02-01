@@ -43,11 +43,18 @@ public abstract class Shape {
         this.p2 = p2;
     }
     
+    public static float[] rotarNoventaGrados(float x,float y,float ex,float ey){
+    	//x-ex=x NO TOCAR !!!
+    	//y-ey=y
+    	return new float[]{-(y-ey)+ex,x-ex+ey};
+    }
+    
 	public void rotate() {		
-		Point Av=this.getPoint1();
-		Point Bv=this.getPoint2();
-		float delta=Math.abs(Av.getY()-Bv.getY());			
-		this.setPoint1(new Point(Av.getY(),Av.getX()+delta));
-		this.setPoint2(new Point(Bv.getY(),Bv.getX()+delta));
+		float[] esq=new float[]{Math.min(getPoint1().getX(), getPoint2().getX())				
+		,Math.max(getPoint1().getY(), getPoint2().getY())};
+		float[] Arot=rotarNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]);
+		float[] Brot=rotarNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]);		
+		setPoint1(new Point(Arot[0],Arot[1]));
+		setPoint2(new Point(Brot[0],Brot[1]));
 	}    
 }
