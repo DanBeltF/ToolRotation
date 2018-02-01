@@ -37,9 +37,9 @@ public class Controller implements IController {
         
     private Renderer renderer;
     
-    private Stack<Comando> ReHacer;
+    private Stack<Comando> ReHacer=new Stack<Comando>();
     
-    private Stack<Comando> DesHacer;
+    private Stack<Comando> DesHacer=new Stack<Comando>();
     
     public Controller() {
     }
@@ -51,7 +51,8 @@ public class Controller implements IController {
                 
         ElementType actualElementType = getSelectedElementType();
     	setSelectedElementType(actualElementType);
-        addShape(mp1, mp2);                 
+        addShape(mp1, mp2);     
+        
 
     }
 
@@ -64,11 +65,11 @@ public class Controller implements IController {
      */
     @Override
     public void duplicateShapes(){
-        
+        int particion=shapes.size();
         List<Point> newShapesFirstPoints=new LinkedList<>();
         List<Point> newShapesSecondPoints=new LinkedList<>();
         
-        int displacementDelta=10+new Random(System.currentTimeMillis()).nextInt(50);
+        int displacementDelta=10+new Random(System.currentTimeMillis()).nextInt(50);        
         
         for (Shape s:shapes){
             newShapesFirstPoints.add(new Point(s.getPoint1().getX(),s.getPoint1().getY()+displacementDelta));
@@ -80,40 +81,50 @@ public class Controller implements IController {
         while (it1.hasNext() && it2.hasNext()){
             addShape(it1.next(), it2.next());
         }
-                
-        
+        DesHacer.push(new Duplicate(this,particion));       
     }
   
     
-    @Override
-    public void addShape(Point p1,Point p2) {
-        shapes.add(shapeFactory.createShape(selectedElement, p1, p2));
-        notifyObservers();
-    }
+   
     
     @Override
     public void undo() {
-    	//operacion.deshacer
-    	throw new RuntimeException("No se ha implemenado UNDO");
+    	if (!DesHacer.isEmpty()){
+    		Comando com=DesHacer.pop();
+    		System.out.println("Deshacer "+DesHacer.size());
+    		com.undo();    		
+      	} 	
+    	
     }
 
     @Override
     public void redo() {
-    	//operacion.rehacer
-    	throw new RuntimeException("No se ha implemenado UNDO");
+    	if(!ReHacer.isEmpty()){
+    		Comando com=ReHacer.pop();
+    		System.out.println("Rehacer "+ReHacer.size());
+    		com.redo();    		
+    	}
+    }
+    
+    @Override
+    public void addShape(Point p1,Point p2) {    	
+        shapes.add(shapeFactory.createShape(selectedElement, p1, p2));
+        System.out.println("largo "+shapes.size());   
+        DesHacer.push(new Draw(this, shapes.size()-1));
+        notifyObservers();
     }
 
     @Override
-    public void addShape(Integer index, Shape shape) {
-        shapes.add(index,shape);
+    public void addShape(Integer index, Shape shape) {       
+    	shapes.add(index,shape);              
         notifyObservers();
     }   
     
     @Override
     public void deleteShape(Integer index) {
-        int idx = index;
-        shapes.remove(idx);
-        
+        int idx = index;   
+        ReHacer.push(new Draw(this, shapes.size()-1));
+        shapes.remove(idx);        
         //notificar a la capa de presentación
         notifyObservers();
     }
@@ -125,7 +136,7 @@ public class Controller implements IController {
      * @param index la posicion de la figura en el conjunto de figuras
      * del controlador
      */
- 
+  
     public void rotateSelectedShape(Integer index) {
     	shapes.get(index).rotate();    
         notifyObservers();        

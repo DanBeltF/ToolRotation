@@ -46,11 +46,7 @@ public abstract class Shape {
     	return new float[]{-(y-ey)+ex,x-ex+ey};
     }
     
-    public static float[] rotarNoventaGradosR(float x,float y,float ex,float ey){
-    	//x-ex=x NO TOCAR !!!
-    	//y-ey=y
-    	return new float[]{-(y-ey)+ex,x-ex+ey};
-    }
+   
     public abstract float[] getEsq();
     
     public abstract void rotate();
