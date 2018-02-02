@@ -5,7 +5,7 @@
  */
 package eci.pdsw.draw.controller;
 
-import eci.pdsw.pattern.command.Command;
+import eci.pdsw.pattern.command.*;
 import eci.pdsw.draw.gui.shapes.Renderer;
 import eci.pdsw.draw.model.ElementType;
 import eci.pdsw.draw.model.ShapeFactory;
@@ -37,9 +37,9 @@ public class Controller implements IController {
         
     private Renderer renderer;
     
-    private Stack<Comando> ReHacer=new Stack<Comando>();
+    private Stack<Command> ReHacer=new Stack<Command>();
     
-    private Stack<Comando> DesHacer=new Stack<Comando>();
+    private Stack<Command> DesHacer=new Stack<Command>();
     
     public Controller() {
     }
@@ -68,7 +68,7 @@ public class Controller implements IController {
         int particion=shapes.size();
         List<Point> newShapesFirstPoints=new LinkedList<>();
         List<Point> newShapesSecondPoints=new LinkedList<>();
-        
+        List<Shape> nuevas=new ArrayList<>(); 
         int displacementDelta=10+new Random(System.currentTimeMillis()).nextInt(50);        
         
         for (Shape s:shapes){
@@ -79,9 +79,13 @@ public class Controller implements IController {
         Iterator<Point> it2=newShapesSecondPoints.iterator();
         
         while (it1.hasNext() && it2.hasNext()){
-            addShape(it1.next(), it2.next());
+            //addShape(it1.next(), it2.next());
+            Shape sh=shapeFactory.createShape(selectedElement,it1.next(), it2.next());
+            shapes.add(sh);
+            nuevas.add(sh);        
+            notifyObservers();
         }
-        DesHacer.push(new Duplicate(this,particion));       
+        DesHacer.push(new Duplicate(this,nuevas));       
     }
   
     
@@ -90,9 +94,10 @@ public class Controller implements IController {
     @Override
     public void undo() {
     	if (!DesHacer.isEmpty()){
-    		Comando com=DesHacer.pop();
+    		Command com=DesHacer.pop();
     		System.out.println("Deshacer "+DesHacer.size());
-    		com.undo();    		
+    		com.undo();    	
+    		ReHacer.push(com);
       	} 	
     	
     }
@@ -100,17 +105,18 @@ public class Controller implements IController {
     @Override
     public void redo() {
     	if(!ReHacer.isEmpty()){
-    		Comando com=ReHacer.pop();
+    		Command com=ReHacer.pop();
     		System.out.println("Rehacer "+ReHacer.size());
     		com.redo();    		
+    		DesHacer.push(com);
     	}
     }
     
     @Override
-    public void addShape(Point p1,Point p2) {    	
-        shapes.add(shapeFactory.createShape(selectedElement, p1, p2));
-        System.out.println("largo "+shapes.size());   
-        DesHacer.push(new Draw(this, shapes.size()-1));
+    public void addShape(Point p1,Point p2) {  
+    	Shape sh=shapeFactory.createShape(selectedElement, p1, p2);
+        shapes.add(sh);        
+        DesHacer.push(new Draw(this, sh));
         notifyObservers();
     }
 
@@ -120,10 +126,14 @@ public class Controller implements IController {
         notifyObservers();
     }   
     
+    public void addShape(Shape s) {
+    	shapes.add(s);
+    	 notifyObservers();
+    }
+    
     @Override
     public void deleteShape(Integer index) {
-        int idx = index;   
-        ReHacer.push(new Draw(this, shapes.size()-1));
+        int idx = index;           
         shapes.remove(idx);        
         //notificar a la capa de presentación
         notifyObservers();
