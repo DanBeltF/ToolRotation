@@ -47,13 +47,10 @@ public class Controller implements IController {
     @Override
     public void addShapeFromScreenPoints(java.awt.Point p1,java.awt.Point p2) {
         Point mp1 = Point.newPoint(new Float(p1.x), new Float(p1.y));
-        Point mp2 = Point.newPoint(new Float(p2.x), new Float(p2.y));
-                
+        Point mp2 = Point.newPoint(new Float(p2.x), new Float(p2.y));                
         ElementType actualElementType = getSelectedElementType();
     	setSelectedElementType(actualElementType);
-        addShape(mp1, mp2);     
-        
-
+        addShape(mp1, mp2);    
     }
 
     
@@ -65,27 +62,9 @@ public class Controller implements IController {
      */
     @Override
     public void duplicateShapes(){
-        int particion=shapes.size();
-        List<Point> newShapesFirstPoints=new LinkedList<>();
-        List<Point> newShapesSecondPoints=new LinkedList<>();
-        List<Shape> nuevas=new ArrayList<>(); 
-        int displacementDelta=10+new Random(System.currentTimeMillis()).nextInt(50);        
-        
-        for (Shape s:shapes){
-            newShapesFirstPoints.add(new Point(s.getPoint1().getX(),s.getPoint1().getY()+displacementDelta));
-            newShapesSecondPoints.add(new Point(s.getPoint2().getX(),s.getPoint2().getY()+displacementDelta));
-        }
-        Iterator<Point> it1=newShapesFirstPoints.iterator();
-        Iterator<Point> it2=newShapesSecondPoints.iterator();
-        
-        while (it1.hasNext() && it2.hasNext()){
-            //addShape(it1.next(), it2.next());
-            Shape sh=shapeFactory.createShape(selectedElement,it1.next(), it2.next());
-            shapes.add(sh);
-            nuevas.add(sh);        
-            notifyObservers();
-        }
-        DesHacer.push(new Duplicate(this,nuevas));       
+    	Duplicate Du=new Duplicate(this);
+    	DesHacer.push(Du);
+    	Du.redo();    	        
     }
   
     
@@ -94,8 +73,7 @@ public class Controller implements IController {
     @Override
     public void undo() {
     	if (!DesHacer.isEmpty()){
-    		Command com=DesHacer.pop();
-    		System.out.println("Deshacer "+DesHacer.size());
+    		Command com=DesHacer.pop();    		
     		com.undo();    	
     		ReHacer.push(com);
       	} 	
@@ -105,8 +83,7 @@ public class Controller implements IController {
     @Override
     public void redo() {
     	if(!ReHacer.isEmpty()){
-    		Command com=ReHacer.pop();
-    		System.out.println("Rehacer "+ReHacer.size());
+    		Command com=ReHacer.pop();    		
     		com.redo();    		
     		DesHacer.push(com);
     	}
@@ -114,29 +91,24 @@ public class Controller implements IController {
     
     @Override
     public void addShape(Point p1,Point p2) {  
-    	Shape sh=shapeFactory.createShape(selectedElement, p1, p2);
-        shapes.add(sh);        
-        DesHacer.push(new Draw(this, sh));
-        notifyObservers();
+    	Draw D=new Draw(this,shapeFactory.createShape(selectedElement, p1, p2),-1);       
+        DesHacer.push(D);
+        D.redo();      
     }
 
     @Override
-    public void addShape(Integer index, Shape shape) {       
-    	shapes.add(index,shape);              
-        notifyObservers();
-    }   
+    public void addShape(Integer index, Shape shape) {     
+    	Draw D=new Draw(this,shape,index);       
+        DesHacer.push(D);
+        D.redo();       
+    }       
     
-    public void addShape(Shape s) {
-    	shapes.add(s);
-    	 notifyObservers();
-    }
     
     @Override
     public void deleteShape(Integer index) {
-        int idx = index;           
-        shapes.remove(idx);        
-        //notificar a la capa de presentación
-        notifyObservers();
+    	Delete B=new Delete(this,shapes.get(index),index);       
+        DesHacer.push(B);
+        B.redo();      
     }
     
     /**
@@ -148,8 +120,9 @@ public class Controller implements IController {
      */
   
     public void rotateSelectedShape(Integer index) {
-    	shapes.get(index).rotate();    
-        notifyObservers();        
+    	Rotate R=new Rotate(this, shapes.get(index));
+    	DesHacer.push(R);
+    	R.redo();
     }    
     
     

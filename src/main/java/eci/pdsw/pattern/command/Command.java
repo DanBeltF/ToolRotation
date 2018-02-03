@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package eci.pdsw.pattern.command;
+import java.util.List;
+
 import eci.pdsw.draw.controller.IController;
+import eci.pdsw.draw.model.Shape;
 
 
 /**
@@ -13,5 +16,5 @@ import eci.pdsw.draw.controller.IController;
  */
 public interface Command {
     public void redo();
-    public void undo();
+    public void undo();    
 }

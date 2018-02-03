@@ -29,17 +29,41 @@ public class Line extends Shape {
         return new Line(this.getPoint1(), this.getPoint2());
     }
 
-	@Override
-	public float[] getEsq() {		
+
+	public float[] getEsqInf() {		
 		return new float[]{Math.min(getPoint1().getX(), getPoint2().getX())				
 				,Math.max(getPoint1().getY(), getPoint2().getY())};
+	}	
+	
+	public float[] getEsqSup() {		
+		return new float[]{Math.min(getPoint1().getX(), getPoint2().getX())				
+				,Math.min(getPoint1().getY(), getPoint2().getY())};
+	}	
+
+	public void rotate(char sig){
+		float[] esq;		
+		switch(sig){
+			case '-':
+				esq=getEsqInf();				
+				set2points(rotarMenosNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]),
+				rotarMenosNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]));				
+				break;
+			case '+':
+				esq=getEsqSup();						
+				set2points(rotarNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]),
+				rotarNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]));				
+				break;			
+		}	
 	}
+	
+	@Override
 	public void rotate() {		
-		float[] esq=getEsq();
-		float[] Arot=rotarNoventaGrados(getPoint1().getX(),getPoint1().getY(),esq[0],esq[1]);
-		float[] Brot=rotarNoventaGrados(getPoint2().getX(),getPoint2().getY(),esq[0],esq[1]);		
-		setPoint1(new Point(Arot[0],Arot[1]));
-		setPoint2(new Point(Brot[0],Brot[1]));
+		rotate('-');
+	}
+
+	@Override
+	public void invRotate() {
+		rotate('+');		
 	}    
     
 }

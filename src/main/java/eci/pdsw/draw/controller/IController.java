@@ -21,9 +21,8 @@ public interface IController extends Observable {
 
     
     @Override
-    void addObserver(Observer o);
-    
-    void addShape(Shape s);
+    void addObserver(Observer o); 
+  
 
     void addShape(Point p1, Point p2);
 

@@ -40,14 +40,25 @@ public abstract class Shape {
         this.p2 = p2;
     }
     
-    public static float[] rotarNoventaGrados(float x,float y,float ex,float ey){
+	public void set2points(float[] Arot,float[] Brot){
+		setPoint1(new Point(Arot[0],Arot[1]));
+		setPoint2(new Point(Brot[0],Brot[1]));	
+	}
+	
+    
+    public static float[] rotarMenosNoventaGrados(float x,float y,float ex,float ey){
     	//x-ex=x NO TOCAR !!!
     	//y-ey=y
     	return new float[]{-(y-ey)+ex,x-ex+ey};
     }
     
+    public static float[] rotarNoventaGrados(float x,float y,float ex,float ey){     	
+    	return new float[]{(y-ey)+ex,-(x-ex)+ey};
+    }   
    
-    public abstract float[] getEsq();
+    
     
     public abstract void rotate();
+    
+    public abstract void invRotate();
 }
